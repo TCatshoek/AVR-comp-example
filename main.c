@@ -21,6 +21,9 @@ int main() {
         abort(); // Or somehow signal the "competition manager" that we found a crash?
     }
 
+    // "fix" the second "vulnerability"
+    locals.buf[0] = 'A';
+
     // Add a second crash for demo purposes
     if (locals.buf[0] != 'A') {
         printf("Second crash triggered");
