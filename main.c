@@ -3,17 +3,18 @@
 #include <stdlib.h>
 
 #define GUARD_VALUE 0xFEEDCAFE
+#define BUF_LEN 256
 
 int main() {
     // We want direct control over memory layout, so put things in a struct so the compiler doesn't pull a fast one on us
     // It tends to reorganize the variables so that the guard value is before the buffer in memory.
     struct {
-        char buf[256];
+        char buf[BUF_LEN];
         uint32_t guard;
     } locals;
     locals.guard = GUARD_VALUE;
 
-    gets(locals.buf);
+    fgets(locals.buf, BUF_LEN, stdin);
 
     // Poor mans stack canary :)
     if (locals.guard != GUARD_VALUE) {
